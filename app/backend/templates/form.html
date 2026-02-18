@@ -1,15 +1,42 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
     <head>
-        <title>Простая страница регистрации</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Регистрация на событие</title>
+        <link rel="stylesheet" href="/static/style.css">
     </head>
     <body>
-        форма всякая короче ну вы поняли
-        <form method="POST" action="/registration_form/validate">
-            <input type="hidden" name="csrf_token" value="{{token}}">
-            <input type="text" name="name">
-            <input type="email" name="email">
-            <input type="text" name="surname">
-            <button type="submit">отправить</button>
-        </form>
+        <div class="container">
+            <div class="header">
+                <h1>РЕГИСТРАЦИЯ</h1>
+                <p>Заполните форму для участия в событии</p>
+            </div>
+
+            <div class="form-container">
+                <div class="form-content">
+                    <form method="POST" action="/registration_form/validate">
+                        <input type="hidden" name="csrf_token" value="{{token}}">
+
+                        <div class="form-group">
+                            <label for="name">Имя</label>
+                            <input type="text" id="name" name="name" placeholder="Введите ваше имя" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="surname">Фамилия</label>
+                            <input type="text" id="surname" name="surname" placeholder="Введите вашу фамилию" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Электронная почта</label>
+                            <input type="email" id="email" name="email" placeholder="Введите вашу почту" required>
+                        </div>
+
+                        <button type="submit" class="full-width">Зарегистрироваться</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

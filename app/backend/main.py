@@ -1,9 +1,11 @@
 from fastapi import FastAPI, Request, Depends, Form
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from typing import List
 from sqlalchemy.orm import Session
 from db import get_db, Base, engine
+import os
 from fastapi_csrf_protect import CsrfProtect
 from starlette.middleware.sessions import SessionMiddleware
 import schemas, models
@@ -14,11 +16,12 @@ for i in range(30):
         Base.metadata.create_all(bind=engine)
         break
     except Exception as e:
-        print("An error occured while building DB: "+e)
+        print("An error occured while building DB:", str(e))
         time.sleep(1)
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key="I-LOVE-SCHOOL-1150<3")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 
@@ -75,7 +78,8 @@ async def fetch_registrations(
     password: str = Form(...),
     db: Session = Depends(get_db),
 ):
-    if password=="G1ad0s3F1":
+    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'G1ad0s3F1')
+    if password == ADMIN_PASSWORD:
         registrations = db.query(models.Registration).all()
         return templates.TemplateResponse(request, "admin.html", {"registrations": registrations})
     return {"message": "you are not allowed on this page"}

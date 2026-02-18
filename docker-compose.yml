@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./app/backend
+      dockerfile: Dockerfile
+    container_name: school_event_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ADMIN_PASSWORD=SuperSecretAdminPass
+      - DB_PATH=/app/data/db1.db
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

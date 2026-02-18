@@ -1,23 +1,39 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
     <head>
-        <title>Простая страница регистрации</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Просмотр зарегистрированных участников</title>
+        <link rel="stylesheet" href="/static/style.css">
     </head>
     <body>
-        <h2>Зарегистрированные пользователи</h2>
-        <table>
-            <tr>
-                <td>Имя</td>
-                <td>Фамилия</td>
-                <td>Почта</td>
-            </tr>
-            {% for registration in registrations %}
-                <tr>
-                    <td>{{registration.name}}</td>
-                    <td>{{registration.surname}}</td>
-                    <td>{{registration.email}}</td>
-                </tr>
-            {% endfor %}
-        </table>
-        
+        <div class="container">
+            <div class="header">
+                <h1>Админ-панель</h1>
+                <p>Список зарегистрированных участников</p>
+            </div>
+
+            <div class="table-container">
+                <h2 style="margin-bottom: 18px;">Зарегистрированные участники</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Имя</th>
+                            <th>Фамилия</th>
+                            <th>Электронная почта</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for registration in registrations %}
+                            <tr>
+                                <td>{{registration.name}}</td>
+                                <td>{{registration.surname}}</td>
+                                <td>{{registration.email}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </body>
 </html>

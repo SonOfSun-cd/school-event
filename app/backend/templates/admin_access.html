@@ -1,12 +1,31 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
     <head>
-        <title>Простая страница регистрации</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Доступ в админ-панель</title>
+        <link rel="stylesheet" href="/static/style.css">
     </head>
+</body>
     <body>
-        <h2>Чтобы получить доступ к зарегистрированным пользователям введите пароль:</h2>
-        <form method="POST" action="/admin/confirm">
-            <input type="text" name="password">
-            <button type="submit"></button>
-        </form>
+        <div class="container">
+            <div class="header">
+                <h1>Доступ в админ-панель</h1>
+            </div>
+
+            <div class="form-container">
+                <div class="form-content">
+                    <h2>Вход</h2>
+                    <p style="color: var(--primary-teal); margin-bottom: 18px;">Введите пароль для доступа</p>
+                    <form method="POST" action="/admin/confirm">
+                        <div class="form-group">
+                            <label for="password">Пароль</label>
+                            <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+                        </div>
+                        <button type="submit" class="full-width">Войти</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
