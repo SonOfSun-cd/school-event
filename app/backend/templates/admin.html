@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Простая страница регистрации</title>
+    </head>
+    <body>
+        <h2>Зарегистрированные пользователи</h2>
+        <table>
+            <tr>
+                <td>Имя</td>
+                <td>Фамилия</td>
+                <td>Почта</td>
+            </tr>
+            {% for registration in registrations %}
+                <tr>
+                    <td>{{registration.name}}</td>
+                    <td>{{registration.surname}}</td>
+                    <td>{{registration.email}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        
+    </body>
+</html>

@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>Простая страница регистрации</title>
+    </head>
+    <body>
+        форма всякая короче ну вы поняли
+        <form method="POST" action="/registration_form/validate">
+            <input type="hidden" name="csrf_token" value="{{token}}">
+            <input type="text" name="name">
+            <input type="email" name="email">
+            <input type="text" name="surname">
+            <button type="submit">отправить</button>
+        </form>
+    </body>
+</html>
