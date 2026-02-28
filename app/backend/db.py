@@ -3,7 +3,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-# Используем файл базы данных внутри папки data, чтобы её можно было монтировать через volumes
 DB_PATH = os.environ.get('DB_PATH', 'data/db1.db')
 engine = create_engine(f"sqlite:///{DB_PATH}", connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

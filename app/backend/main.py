@@ -19,16 +19,19 @@ for i in range(30):
         print("An error occured while building DB:", str(e))
         time.sleep(1)
 
+
+SECRET_KEY = os.environ.get('SECRET_KEY', 'MySecretKeyForSessions')
+CSRF_SECRET = os.environ.get('CSRF_SECRET', 'AnotherSecretKeyForCSRF')
 app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key="I-LOVE-SCHOOL-1150<3")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
+#app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 
 @CsrfProtect.load_config
 def get_csrf_config():
     return [
-        ('secret_key', 'I-LOVE-MIET-TOO'),
+        ('secret_key', CSRF_SECRET),
         ('csrf_methods', {'POST', 'PUT', 'PATCH', 'DELETE'})
     ]
 
