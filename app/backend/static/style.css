@@ -357,4 +357,5 @@ tbody tr:hover { background: var(--muted); }
 
 @media (max-width: 768px) {
   .index-side { display: none !important; }
+  body.show-right-side-mobile .index-side--right { display: flex !important; }
 }
