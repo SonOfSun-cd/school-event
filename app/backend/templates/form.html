@@ -7,36 +7,44 @@
         <link rel="stylesheet" href="/static/style.css">
     </head>
     <body>
-        <div class="container">
-            <div class="header">
-                <h1>РЕГИСТРАЦИЯ</h1>
-                <p>Заполните форму для участия в событии</p>
-            </div>
+        <div class="index-wrapper">
+            <div class="index-section index-side"></div>
 
-            <div class="form-container">
-                <div class="form-content">
-                    <form method="POST" action="/registration_form/validate">
-                        <input type="hidden" name="csrf_token" value="{{token}}">
+            <div class="index-section index-center">
+                <div class="container">
+                    <div class="header">
+                        <h1>РЕГИСТРАЦИЯ</h1>
+                        <p>Заполните форму для участия в событии</p>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="name">Имя</label>
-                            <input type="text" id="name" name="name" placeholder="Введите ваше имя" required>
+                    <div class="form-container">
+                        <div class="form-content">
+                            <form method="POST" action="/registration_form/validate">
+                                <input type="hidden" name="csrf_token" value="{{token}}">
+
+                                <div class="form-group">
+                                    <label for="name">Имя</label>
+                                    <input type="text" id="name" name="name" placeholder="Введите ваше имя" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="surname">Фамилия</label>
+                                    <input type="text" id="surname" name="surname" placeholder="Введите вашу фамилию" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Электронная почта</label>
+                                    <input type="email" id="email" name="email" placeholder="Введите вашу почту" required>
+                                </div>
+
+                                <button type="submit" class="btn-register full-width">Зарегистрироваться</button>
+                            </form>
                         </div>
-
-                        <div class="form-group">
-                            <label for="surname">Фамилия</label>
-                            <input type="text" id="surname" name="surname" placeholder="Введите вашу фамилию" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Электронная почта</label>
-                            <input type="email" id="email" name="email" placeholder="Введите вашу почту" required>
-                        </div>
-
-                        <button type="submit" class="full-width">Зарегистрироваться</button>
-                    </form>
+                    </div>
                 </div>
             </div>
+
+            <div class="index-section index-side"></div>
         </div>
     </body>
 </html>

@@ -6,26 +6,33 @@
         <title>Доступ в админ-панель</title>
         <link rel="stylesheet" href="/static/style.css">
     </head>
-</body>
     <body>
-        <div class="container">
-            <div class="header">
-                <h1>Доступ в админ-панель</h1>
-            </div>
+        <div class="index-section index-wrapper">
+            <div class="index-section index-side"></div>
 
-            <div class="form-container">
-                <div class="form-content">
-                    <h2>Вход</h2>
-                    <p style="color: var(--primary-teal); margin-bottom: 18px;">Введите пароль для доступа</p>
-                    <form method="POST" action="/admin/confirm">
-                        <div class="form-group">
-                            <label for="password">Пароль</label>
-                            <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+            <div class="index-section index-center">
+                <div class="container">
+                    <div class="header">
+                        <h1>Доступ в админ-панель</h1>
+                    </div>
+
+                    <div class="form-container">
+                        <div class="form-content">
+                            <h2>Вход</h2>
+                            <p style="color: var(--special-teal); margin-bottom: 18px;">Введите пароль для доступа</p>
+                            <form method="POST" action="/admin/confirm">
+                                <div class="form-group">
+                                    <label for="password">Пароль</label>
+                                    <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+                                </div>
+                                <button type="submit" class="btn-register full-width">Войти</button>
+                            </form>
                         </div>
-                        <button type="submit" class="full-width">Войти</button>
-                    </form>
+                    </div>
                 </div>
             </div>
+
+            <div class="index-section index-side"></div>
         </div>
     </body>
 </html>

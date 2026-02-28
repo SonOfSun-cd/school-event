@@ -7,33 +7,41 @@
         <link rel="stylesheet" href="/static/style.css">
     </head>
     <body>
-        <div class="container">
-            <div class="header">
-                <h1>Админ-панель</h1>
-                <p>Список зарегистрированных участников</p>
+        <div class="index-wrapper">
+            <div class="index-section index-side"></div>
+
+            <div class="index-section index-center">
+                <div class="container">
+                    <div class="header">
+                        <h1>Админ-панель</h1>
+                        <p>Список зарегистрированных участников</p>
+                    </div>
+
+                    <div class="table-container">
+                        <h2 style="margin-bottom: 18px;">Зарегистрированные участники</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Имя</th>
+                                    <th>Фамилия</th>
+                                    <th>Электронная почта</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for registration in registrations %}
+                                    <tr>
+                                        <td>{{registration.name}}</td>
+                                        <td>{{registration.surname}}</td>
+                                        <td>{{registration.email}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
-            <div class="table-container">
-                <h2 style="margin-bottom: 18px;">Зарегистрированные участники</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Имя</th>
-                            <th>Фамилия</th>
-                            <th>Электронная почта</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for registration in registrations %}
-                            <tr>
-                                <td>{{registration.name}}</td>
-                                <td>{{registration.surname}}</td>
-                                <td>{{registration.email}}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            <div class="index-section index-side"></div>
         </div>
     </body>
 </html>

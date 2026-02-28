@@ -26,7 +26,7 @@ app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 #app.mount("/static", StaticFiles(directory="static"), name="static")
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="backend/templates")
 
 @CsrfProtect.load_config
 def get_csrf_config():
@@ -34,6 +34,14 @@ def get_csrf_config():
         ('secret_key', CSRF_SECRET),
         ('csrf_methods', {'POST', 'PUT', 'PATCH', 'DELETE'})
     ]
+
+@app.get('/index')
+async def index(
+    request: Request,
+    db: Session = Depends(get_db)
+    ):
+    return templates.TemplateResponse(request, "index.html")
+
 
 @app.get('/admin')
 async def admin(
@@ -72,7 +80,7 @@ async def form_validate(
         return RedirectResponse("/registration_form", status_code=303)
     db.add(models.Registration(name=validated_data.name, surname=validated_data.surname, email=validated_data.email))
     db.commit()
-    return RedirectResponse("/registration_form", status_code=303)
+    return RedirectResponse("/index", status_code=303)
 
 
 @app.post('/admin/confirm')
@@ -92,4 +100,4 @@ async def fetch_registrations(
 async def redirect_to_register(
     path: str,
 ):
-    return RedirectResponse("/registration_form", status_code=303)
+    return RedirectResponse("/index", status_code=303)
