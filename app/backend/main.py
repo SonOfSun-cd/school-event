@@ -4,11 +4,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from typing import List
 from sqlalchemy.orm import Session
-from db import get_db, Base, engine
+from .db import get_db, Base, engine
 import os
 from fastapi_csrf_protect import CsrfProtect
 from starlette.middleware.sessions import SessionMiddleware
-import schemas, models
+from . import schemas, models
 import time
 
 for i in range(30):
