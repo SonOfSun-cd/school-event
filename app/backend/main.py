@@ -89,7 +89,7 @@ async def fetch_registrations(
     password: str = Form(...),
     db: Session = Depends(get_db),
 ):
-    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'G1ad0s3F1')
+    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'SuperSecretAdminPass')
     if password == ADMIN_PASSWORD:
         registrations = db.query(models.Registration).all()
         return templates.TemplateResponse(request, "admin.html", {"registrations": registrations})
@@ -97,7 +97,7 @@ async def fetch_registrations(
 
 
 @app.get('/{path:path}')
-async def redirect_to_register(
+async def redirect_to_index(
     path: str,
 ):
     return RedirectResponse("/index", status_code=303)

@@ -126,7 +126,6 @@ tbody tr:hover { background: var(--muted); }
   min-height: 100vh;
 }
 
-
 .index-side {
   background-attachment: fixed;
 }
