@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="index-wrapper">
-            <div class="index-side"></div>
+            <div class="index-section index-side"></div>
 
             <div class="index-section index-center">
                 <div class="container">
@@ -30,9 +30,9 @@
                             <tbody>
                                 {% for registration in registrations %}
                                     <tr>
-                                        <th>{{registration.name}}</th>
-                                        <th>{{registration.surname}}</th>
-                                        <th>{{registration.email}}</th>
+                                        <td>{{registration.name}}</td>
+                                        <td>{{registration.surname}}</td>
+                                        <td>{{registration.email}}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
