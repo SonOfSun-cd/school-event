@@ -44,12 +44,6 @@ async def index(
     return templates.TemplateResponse(request, "index.html")
 
 
-@app.get('/admin')
-async def admin(
-    request: Request,
-    db: Session = Depends(get_db)
-    ):
-    return templates.TemplateResponse(request, "admin_access.html")
 
 @app.get('/registration_form')
 async def form(
@@ -74,6 +68,9 @@ async def form_validate(
     csrf_protect: CsrfProtect = Depends()
 ):
     csrf_protect.validate_csrf(form_token, request)
+    if not phone_number and not email:
+        print("Validation error: No contact information provided")
+        return RedirectResponse("/registration_form", status_code=303)
     try:
         validated_data = schemas.CreateRegistration(name=name, email=email or None, phone_number=phone_number or None)
     except Exception as e:
@@ -83,18 +80,34 @@ async def form_validate(
     db.commit()
     return RedirectResponse("/index", status_code=303)
 
+@app.get('/admin')
+async def admin(
+    request: Request,
+    db: Session = Depends(get_db)
+    ):
+    return templates.TemplateResponse(request, "admin_access.html")
 
-@app.post('/admin/confirm')
-async def fetch_registrations(
+
+@app.post('/admin')
+async def admin_access(
     request: Request,
     password: str = Form(...),
     db: Session = Depends(get_db),
 ):
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'SuperSecretAdminPass')
     if password == ADMIN_PASSWORD:
-        registrations = db.query(models.Registration).all()
-        return templates.TemplateResponse(request, "admin.html", {"registrations": registrations})
+        return RedirectResponse("/admin/confirmed", status_code=303)
     return {"message": "you are not allowed on this page"}
+
+@app.post('/admin/confirmed')
+async def fetch_registrations(
+    request: Request,
+    password: str = Form(...),
+    db: Session = Depends(get_db),
+):
+    registrations = db.query(models.Registration).all()
+    return templates.TemplateResponse(request, "admin.html", {"registrations": registrations})
+
 
 
 
@@ -108,7 +121,7 @@ async def delete_registration(
     if registration:
         db.delete(registration)
         db.commit()
-    return RedirectResponse("/admin/confirm", status_code=303)
+    return RedirectResponse("/admin/confirmed", status_code=303)
 
 @app.get('/{path:path}')
 async def redirect_to_index(
