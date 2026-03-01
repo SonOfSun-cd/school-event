@@ -94,7 +94,7 @@ async def admin_access(
     password: str = Form(...),
     db: Session = Depends(get_db),
 ):
-    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'SuperSecretAdminPass')
+    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'AdminPass')
     if password == ADMIN_PASSWORD:
         sessions.append(request.client.host)
         print(sessions)

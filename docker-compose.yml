@@ -9,7 +9,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - ADMIN_PASSWORD=SuperSecretAdminPass
+      - ADMIN_PASSWORD=adminPass
       - SECRET_KEY=MySecretKeyForSessions
       - CSRF_SECRET=AnotherSecretKeyForCSRF
       - DB_PATH=/app/data/db1.db
