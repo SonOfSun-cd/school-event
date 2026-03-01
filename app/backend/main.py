@@ -20,7 +20,7 @@ for i in range(30):
         print("An error occured while building DB:", str(e))
         time.sleep(1)
 
-
+sessions = []
 SECRET_KEY = os.environ.get('SECRET_KEY', 'MySecretKeyForSessions')
 CSRF_SECRET = os.environ.get('CSRF_SECRET', 'AnotherSecretKeyForCSRF')
 app = FastAPI()
@@ -96,19 +96,22 @@ async def admin_access(
 ):
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'SuperSecretAdminPass')
     if password == ADMIN_PASSWORD:
+        sessions.append(request.client.host)
+        print(sessions)
         return RedirectResponse("/admin/confirmed", status_code=303)
     return {"message": "you are not allowed on this page"}
 
-@app.post('/admin/confirmed')
+@app.get('/admin/confirmed')
 async def fetch_registrations(
     request: Request,
     password: str = Form(...),
     db: Session = Depends(get_db),
 ):
-    registrations = db.query(models.Registration).all()
-    return templates.TemplateResponse(request, "admin.html", {"registrations": registrations})
-
-
+    if request.client.host in sessions:
+        registrations = db.query(models.Registration).all()
+        return templates.TemplateResponse(request, "admin.html", {"registrations": registrations})
+    else:
+        return {"message": "you are not allowed on this page"}
 
 
 @app.post('/admin/delete/{registration_id}')
