@@ -124,9 +124,3 @@ async def delete_registration(
         db.delete(registration)
         db.commit()
     return RedirectResponse("/admin/confirmed", status_code=303)
-
-@app.get('/{path:path}')
-async def redirect_to_index(
-    path: str,
-):
-    return RedirectResponse("/index", status_code=303)
