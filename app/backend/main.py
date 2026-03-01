@@ -67,22 +67,19 @@ async def form(
 async def form_validate(
     request: Request,
     name: str = Form(...),
-    phone_number: str = Form(...),
-    email: str = Form(...),
+    phone_number: str = Form(None),
+    email: str = Form(None),
     form_token: str = Form(..., alias="csrf_token"),
     db: Session = Depends(get_db),
     csrf_protect: CsrfProtect = Depends()
 ):
     csrf_protect.validate_csrf(form_token, request)
-    if not phone_number and not email:
-        print("A problem occured during validation: no contact info provided")
-        return RedirectResponse("/registration_form", status_code=303)
     try:
-        validated_data = schemas.CreateRegistration(name=name, email=email if email else "placeholder@example.com", phone_number=phone_number if phone_number else "0000000000")
+        validated_data = schemas.CreateRegistration(name=name, email=email or None, phone_number=phone_number or None)
     except Exception as e:
         print("A problem occured during validation: " + str(e))
         return RedirectResponse("/registration_form", status_code=303)
-    db.add(models.Registration(name=name, email=email, phone_number=phone_number, datetime=datetime.datetime.now()))
+    db.add(models.Registration(name=validated_data.name, email=validated_data.email, phone_number=validated_data.phone_number, datetime=datetime.datetime.now()))
     db.commit()
     return RedirectResponse("/index", status_code=303)
 
