@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Доступ в админ-панель</title>
         <link rel="stylesheet" href="/static/style.css">
+        <link rel="icon" type="image/png" href="/images/icon.png">
     </head>
     <body>
         <div class="index-wrapper">
@@ -20,7 +21,7 @@
                         <div class="form-content">
                             <h2>Вход</h2>
                             <p style="color: var(--special-teal); margin-bottom: 18px;">Введите пароль для доступа</p>
-                            <form method="POST" action="/admin/confirm">
+                            <form method="POST" action="/admin">
                                 <div class="form-group">
                                     <label for="password">Пароль</label>
                                     <input type="password" id="password" name="password" placeholder="Введите пароль" required>

@@ -104,7 +104,6 @@ async def admin_access(
 @app.get('/admin/confirmed')
 async def fetch_registrations(
     request: Request,
-    password: str = Form(...),
     db: Session = Depends(get_db),
 ):
     if request.client.host in sessions:
