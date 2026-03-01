@@ -10,6 +10,7 @@ from fastapi_csrf_protect import CsrfProtect
 from starlette.middleware.sessions import SessionMiddleware
 from . import schemas, models
 import time
+import datetime
 
 for i in range(30):
     try:
@@ -67,18 +68,22 @@ async def form_validate(
     request: Request,
     name: str = Form(...),
     surname: str = Form(...),
+    phone_number: str = Form(...),
     email: str = Form(...),
     form_token: str = Form(..., alias="csrf_token"),
     db: Session = Depends(get_db),
     csrf_protect: CsrfProtect = Depends()
 ):
     csrf_protect.validate_csrf(form_token, request)
+    if not phone_number and not email:
+        print("A problem occured during validation: no contact info provided")
+        return RedirectResponse("/registration_form", status_code=303)
     try:
-        validated_data = schemas.CreateRegistration(name=name, surname=surname, email=email)
+        validated_data = schemas.CreateRegistration(name=name, email=email, phone_number=phone_number)
     except Exception as e:
         print("A problem occured during validation: " + str(e))
         return RedirectResponse("/registration_form", status_code=303)
-    db.add(models.Registration(name=validated_data.name, surname=validated_data.surname, email=validated_data.email))
+    db.add(models.Registration(name=validated_data.name, email=validated_data.email, phone_number=validated_data.phone_number, datetime=datetime.datetime.now()))
     db.commit()
     return RedirectResponse("/index", status_code=303)
 
@@ -95,6 +100,19 @@ async def fetch_registrations(
         return templates.TemplateResponse(request, "admin.html", {"registrations": registrations})
     return {"message": "you are not allowed on this page"}
 
+
+
+@app.post('/admin/delete/{registration_id}')
+async def delete_registration(
+    request: Request,
+    registration_id: int,
+    db: Session = Depends(get_db),
+):
+    registration = db.query(models.Registration).filter(models.Registration.id == registration_id).first()
+    if registration:
+        db.delete(registration)
+        db.commit()
+    return RedirectResponse("/admin/confirm", status_code=303)
 
 @app.get('/{path:path}')
 async def redirect_to_index(

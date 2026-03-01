@@ -5,9 +5,10 @@ class Registration(BaseModel):
     id: int
     email: EmailStr
     name: str
-    surname: str
+    phone_number: str
+    datetime: str
 
 class CreateRegistration(BaseModel):
     email: EmailStr
     name: str
-    surname: str
+    phone_number: str
