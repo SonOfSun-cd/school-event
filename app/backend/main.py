@@ -29,6 +29,18 @@ app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 
 templates = Jinja2Templates(directory="backend/templates")
 
+
+def get_real_ip(request: Request) -> str:
+    forwarded_for = request.headers.get("X-Forwarded-For")
+    if forwarded_for:
+        return forwarded_for.split(",")[0].strip()
+
+    real_ip = request.headers.get("X-Real-IP")
+    if real_ip:
+        return real_ip
+
+    return request.client.host
+
 @CsrfProtect.load_config
 def get_csrf_config():
     return [
@@ -96,7 +108,7 @@ async def admin_access(
 ):
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'AdminPass')
     if password == ADMIN_PASSWORD:
-        sessions.append(request.client.host)
+        sessions.append(get_real_ip(request))
         print(sessions)
         return RedirectResponse("/admin/confirmed", status_code=303)
     return {"message": "you are not allowed on this page"}
@@ -106,7 +118,7 @@ async def fetch_registrations(
     request: Request,
     db: Session = Depends(get_db),
 ):
-    if request.client.host in sessions:
+    if get_real_ip(request) in sessions:
         registrations = db.query(models.Registration).all()
         return templates.TemplateResponse(request, "admin.html", {"registrations": registrations})
     else:
